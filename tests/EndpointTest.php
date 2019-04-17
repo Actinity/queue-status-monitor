@@ -60,7 +60,7 @@ class EndpointTest
 
     public function test_status_okay_if_queues_are_manually_forced()
     {
-        cache()->put('queue-status-monitor-default',time() - 100);
+        cache()->put('queue-status-monitor-default',['last_run' => time() - 100,'delay' => 0]);
 
         $this->get('queue-status-monitor')
             ->assertStatus(200);
@@ -69,7 +69,7 @@ class EndpointTest
 
     public function test_status_not_okay_if_queues_are_slow()
     {
-        cache()->put('queue-status-monitor-default',time() - 10000);
+        cache()->put('queue-status-monitor-default',['last_run' => time() - 10000,'delay' => 0]);
 
         $this->get('queue-status-monitor')
             ->assertStatus(400);
@@ -92,7 +92,7 @@ class EndpointTest
         config(['queue.monitor' => ['timely','tardy']]);
         Artisan::call('queue-status:ping');
 
-        cache()->put('queue-status-monitor-tardy',time() - 10000);
+        cache()->put('queue-status-monitor-tardy',['last_run' => time() - 10000,'delay' => 0]);
 
         $this->get('queue-status-monitor')
             ->assertStatus(400);
