@@ -1,0 +1,33 @@
+{
+  "name": "twogether/queue-status",
+  "description": "Queue Status Monitor",
+  "type": "library",
+
+  "require-dev": {
+    "orchestra/testbench": "~3.0",
+    "phpunit/phpunit": "^7.0"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Twogether\\QueueStatus\\": "src/"
+    }
+  },
+
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Twogether\\QueueStatus\\QueueStatusServiceProvider"
+      ]
+    }
+  },
+
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
