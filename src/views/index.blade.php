@@ -48,7 +48,11 @@
         <tr class="{{ $queue['class'] }}">
             <td>{{ $queue['name'] }}</td>
             <td title="{{ $queue['last_run'] }}">
+                @if($queue['last_run'] === '-')
+                    -
+                @else
                 {{ \Carbon\Carbon::parse($queue['last_run'])->diffForHumans() }}
+                @endif
             </td>
             <td>{{ $queue['delay'] }}</td>
             <td>{{ $queue['status'] }}</td>
