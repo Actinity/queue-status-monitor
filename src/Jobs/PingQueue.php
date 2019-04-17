@@ -1,17 +1,19 @@
 <?php
 namespace Twogether\QueueStatus\Jobs;
 
+use Twogether\QueueStatus\MonitoredQueue;
+
 class PingQueue
 {
-    private $name;
+    private $queue;
 
-    public function __construct($name)
+    public function __construct(MonitoredQueue $queue)
     {
-        $this->name = $name;
+        $this->queue = $queue;
     }
 
     public function handle()
     {
-        cache()->put('queue-status-monitor-'.$this->name,time());
+        cache()->put($this->queue->cache_key,time());
     }
 }

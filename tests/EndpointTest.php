@@ -2,6 +2,7 @@
 namespace Tests;
 
 use Illuminate\Support\Facades\Artisan;
+use Twogether\QueueStatus\MonitoredQueue;
 use Twogether\QueueStatus\QueueFetcher;
 
 class EndpointTest
@@ -15,21 +16,21 @@ class EndpointTest
     }
 
     public function test_only_default_queues_are_monitored_if_no_config() {
-        $this->assertEquals(['default'],QueueFetcher::get());
+        $this->assertEquals('default',QueueFetcher::get()->first()->name);
     }
 
     public function test_monitored_queues_are_picked_up()
     {
         config(['queue.monitor' => ['queue','otherqueue']]);
 
-        $this->assertEquals(['queue','otherqueue'],QueueFetcher::get());
+        $this->assertEquals(['queue','otherqueue'],QueueFetcher::get()->pluck('name')->all());
     }
 
     public function test_a_single_string_can_be_monitored()
     {
         config(['queue.monitor' => 'myqueue']);
 
-        $this->assertEquals(['myqueue'],QueueFetcher::get());
+        $this->assertEquals('myqueue',QueueFetcher::get()->first()->name);
     }
 
     public function test_status_okay_if_queues_are_pinged()
@@ -38,6 +39,22 @@ class EndpointTest
 
         $this->get('queue-status-monitor')
             ->assertStatus(200);
+
+    }
+
+    public function test_thresholds_default()
+    {
+        config(['queue.monitor' => [['name' => 'myqueue']]]);
+
+        $this->assertEquals(MonitoredQueue::DEFAULT_THRESHOLD,QueueFetcher::get()->first()->threshold);
+
+    }
+
+    public function test_thresholds_can_be_set()
+    {
+        config(['queue.monitor' => [['name' => 'myqueue','threshold' => 900]]]);
+
+        $this->assertEquals(900,QueueFetcher::get()->first()->threshold);
 
     }
 

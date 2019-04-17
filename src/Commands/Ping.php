@@ -14,9 +14,7 @@ class Ping
 
     public function handle()
     {
-        $queues = QueueFetcher::get();
-
-        foreach($queues as $queue) {
+        foreach(QueueFetcher::get() as $queue) {
             dispatch(new PingQueue($queue));
         }
     }

@@ -1,20 +1,35 @@
 <?php
 namespace Twogether\QueueStatus;
 
+use Illuminate\Support\Collection;
+
 class QueueFetcher
 {
-    public static function get()
+    public static function get(): Collection
     {
         $config = config('queue.monitor');
 
+        $queues = [];
+
         if($config) {
-            if(is_array($config)) {
-                return $config;
-            } elseif ($config) {
-                return [$config];
+
+            if(!is_array($config)) {
+                $config = [$config];
             }
+
+            foreach($config as $queue) {
+
+                if(!is_array($queue)) {
+                    $queues[] = new MonitoredQueue($queue);
+                } else {
+                    $queues[] = new MonitoredQueue($queue['name'],$queue['threshold'] ?? null);
+                }
+            }
+
+        } else {
+            $queues[] = new MonitoredQueue('default');
         }
 
-        return ['default'];
+        return collect($queues);
     }
 }
