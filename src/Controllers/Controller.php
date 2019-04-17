@@ -47,10 +47,6 @@ class Controller
             $queues[] = $status;
         }
 
-        if ($okay) {
-            return 'ok';
-        }
-
-        abort(400);
+        return response()->view('queue-status-monitor::index',compact('queues'),$okay ? 200 : 400);
     }
 }

@@ -23,6 +23,8 @@ class QueueStatusServiceProvider
             $schedule->command('queue-status:ping')->everyMinute();
         });
 
+        $this->loadViewsFrom(__DIR__."/views", 'queue-status-monitor');
+
     }
 
     public function register()
