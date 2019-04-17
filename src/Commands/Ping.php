@@ -10,12 +10,12 @@ class Ping
 {
     protected $signature = "queue-status:ping";
 
-    protected $description = "Ping okay for each queue";
+    protected $description = "Dispatch test jobs on all queues";
 
     public function handle()
     {
         foreach(QueueFetcher::get() as $queue) {
-            dispatch(new PingQueue($queue));
+            PingQueue::dispatch($queue,time())->onQueue($queue->name);
         }
     }
 

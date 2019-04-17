@@ -12,23 +12,25 @@ class Controller
         $queues = [];
 
         foreach(QueueFetcher::get() as $queue) {
-            $time = cache()->get($queue->cache_key);
+            $status = cache()->get($queue->cache_key);
 
-            if(!$time) {
+            if(!$status) {
                 $okay = false;
                 $status = [
                     'name' => $queue->name,
-                    'delay' => 0,
+                    'delay' => '-',
+                    'last_run' => '-',
                     'status' => 'No data',
                     'class' => 'no-data',
                 ];
             } else {
-                $delay = time() - $time;
+                $last_run_offset = time() - $status['last_run'];
 
-                if ($delay > $queue->threshold) {
+                if ($last_run_offset > $queue->threshold) {
                     $status = [
                         'name' => $queue->name,
-                        'delay' => $delay,
+                        'delay' => $status['delay'],
+                        'last_run' => date("r",$status['last_run']),
                         'status' => 'Over threshold',
                         'class' => 'failing',
                     ];
@@ -36,7 +38,8 @@ class Controller
                 } else {
                     $status = [
                         'name' => $queue->name,
-                        'delay' => $delay,
+                        'delay' => $status['delay'],
+                        'last_run' => date("r",$status['last_run']),
                         'status' => 'Under threshold',
                         'class' => 'okay',
                     ];

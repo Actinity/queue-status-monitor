@@ -1,19 +1,31 @@
 <?php
 namespace Twogether\QueueStatus\Jobs;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
 use Twogether\QueueStatus\MonitoredQueue;
 
 class PingQueue
+    implements ShouldQueue
 {
-    private $queue;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
-    public function __construct(MonitoredQueue $queue)
+    private $monitoredQueue;
+    private $requestedAt;
+
+    public function __construct(MonitoredQueue $queue,int $requested_at)
     {
-        $this->queue = $queue;
+        $this->monitoredQueue = $queue;
+        $this->requestedAt = $requested_at;
     }
 
     public function handle()
     {
-        cache()->put($this->queue->cache_key,time());
+        cache()->forever($this->monitoredQueue->cache_key,[
+            'last_run' => time(),
+            'delay' => time() - $this->requestedAt,
+        ]);
     }
 }
