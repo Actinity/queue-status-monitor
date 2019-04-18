@@ -20,7 +20,7 @@ class QueueStatusServiceProvider
 
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
-            $schedule->command('queue-status:ping')->everyMinute();
+            $schedule->command('queue-status:ping')->everyMinute()->onOneServer();
         });
 
         $this->loadViewsFrom(__DIR__."/views", 'queue-status-monitor');
