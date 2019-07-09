@@ -1,6 +1,8 @@
 <?php
 namespace Twogether\QueueStatus\Controllers;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Twogether\QueueStatus\QueueFetcher;
 
 class Controller
@@ -50,6 +52,39 @@ class Controller
             $queues[] = $status;
         }
 
-        return response()->view('queue-status-monitor::index',compact('queues'),$okay ? 200 : 400);
+        $failed = $this->getFailedJobs();
+
+        $okay = $okay && !$failed;
+
+        return response()->view('queue-status-monitor::index',compact('queues','failed'),$okay ? 200 : 400);
+    }
+
+    private function getFailedJobs()
+    {
+        try {
+            if(Schema::hasTable('failed_jobs')) {
+
+                $failures = DB::table('failed_jobs')
+                    ->orderBy('id')
+                    ->get();
+
+                if(count($failures)) {
+
+                    return [
+                        'number' => count($failures),
+                        'earliest' => $failures->first()->failed_at,
+                        'latest' => $failures->last()->failed_at
+                    ];
+                }
+
+            }
+
+
+
+        } catch (Exception $e) {
+            // No database connection available. Do nothing.
+        }
+
+        return null;
     }
 }

@@ -34,6 +34,9 @@
     </style>
 </head>
 <body>
+
+<h3>Queues</h3>
+
 <table>
     <thead>
     <tr>
@@ -51,7 +54,7 @@
                 @if($queue['last_run'] === '-')
                     -
                 @else
-                {{ \Carbon\Carbon::parse($queue['last_run'])->diffForHumans() }}
+                    {{ \Carbon\Carbon::parse($queue['last_run'])->diffForHumans() }}
                 @endif
             </td>
             <td>{{ $queue['delay'] }}</td>
@@ -60,5 +63,31 @@
     @endforeach
     </tbody>
 </table>
+
+@if($failed)
+
+    <h3>Failed jobs</h3>
+
+    <table>
+        <tbody>
+        <tr>
+            <td>Failed jobs</td>
+            <td>{{ $failed['number'] }}</td>
+        </tr>
+        <tr>
+            <td>Earliest</td>
+            <td>{{ $failed['earliest'] }}</td>
+        </tr>
+        <tr>
+            @if($failed['earliest'] != $failed['latest'])
+                <td>Latest</td>
+                <td>{{ $failed['latest'] }}</td>
+            @endif
+        </tr>
+        </tbody>
+    </table>
+
+@endif
+
 </body>
 </html>
