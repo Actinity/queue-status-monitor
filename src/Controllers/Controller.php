@@ -66,6 +66,7 @@ class Controller
 
                 $failures = DB::table('failed_jobs')
                     ->orderBy('id')
+                    ->select('failed_at')
                     ->get();
 
                 if(count($failures)) {
