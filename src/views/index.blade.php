@@ -17,6 +17,7 @@
         td,th {
             padding: 10px;
             text-align: left;
+            white-space:nowrap;
         }
         th {
             border-bottom: 1px solid #999;
