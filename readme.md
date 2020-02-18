@@ -45,3 +45,11 @@ As well as reporting the last run time, the `/queue-status-monitor`
 endpoint also reports the `delay`. This is the time between the job
 being dispatched and handled. This does not impact the overall status
 and will not trigger failures. It is purely for reference.
+
+
+##Failed Jobs
+By default, if you have a failed_jobs table, then any failures will
+be treated as errors and generate a 400 status code. You can disable
+this by adding the following to `config/queue.php`.
+
+`do_not_monitor_failed_jobs => true`
