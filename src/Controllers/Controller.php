@@ -52,9 +52,13 @@ class Controller
             $queues[] = $status;
         }
 
-        $failed = $this->getFailedJobs();
+        $failed = null;
 
-        $okay = $okay && !$failed;
+        if(!config('queue.do_not_monitor_failed_jobs')) {
+            $failed = $this->getFailedJobs();
+            $okay = $okay && !$failed;
+        }
+
 
         return response()->view('queue-status-monitor::index',compact('queues','failed'),$okay ? 200 : 400);
     }
