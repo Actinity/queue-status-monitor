@@ -59,8 +59,13 @@ class Controller
             $okay = $okay && !$failed;
         }
 
+        $mismatches = $this->getMismatches();
 
-        return response()->view('queue-status-monitor::index',compact('queues','failed'),$okay ? 200 : 400);
+        if(count($mismatches)) {
+            $ok = false;
+        }
+
+        return response()->view('queue-status-monitor::index',compact('queues','failed','mismatches'),$okay ? 200 : 400);
     }
 
     private function getFailedJobs()
@@ -91,5 +96,20 @@ class Controller
         }
 
         return null;
+    }
+
+    private function getMismatches()
+    {
+        $mismatches = [];
+        if(cache()->get('queue-status-monitor-mismatches')) {
+            foreach(config('queue.connections') as $connection => $details) {
+                foreach(QueueFetcher::get() as $queue) {
+                    if($data = cache()->get("queue-status-monitor-mismatch-{$connection}-{$queue->getName()}")) {
+                        $mismatches[] = json_decode($data);
+                    }
+                }
+            }
+        }
+        return $mismatches;
     }
 }

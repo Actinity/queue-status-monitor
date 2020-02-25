@@ -65,6 +65,33 @@
     </tbody>
 </table>
 
+@if(count($mismatches))
+
+    <h3 style="color:#f00;">Some queues have <i>retry_after</i> set shorter or identical to their <i>timeout</i></h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Connection</th>
+            <th>Queue</th>
+            <th>Timeout</th>
+            <th>Retry After</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($mismatches as $mismatch)
+            <tr>
+                <td>{{ $mismatch->connection }}</td>
+                <td>{{ $mismatch->queue }}</td>
+                <td>{{ $mismatch->timeout }}</td>
+                <td>{{ $mismatch->retry_after }}</td>
+            </tr>
+        @endforeach
+
+        </tbody>
+    </table>
+
+@endif
+
 @if($failed)
 
     <h3>Failed jobs</h3>
