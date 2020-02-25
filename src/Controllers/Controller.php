@@ -62,7 +62,7 @@ class Controller
         $mismatches = $this->getMismatches();
 
         if(count($mismatches)) {
-            $ok = false;
+            $okay = false;
         }
 
         return response()->view('queue-status-monitor::index',compact('queues','failed','mismatches'),$okay ? 200 : 400);
