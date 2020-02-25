@@ -27,5 +27,36 @@ class PingQueue
             'last_run' => time(),
             'delay' => time() - $this->requestedAt,
         ]);
+
+        $timeout = $this->job->timeout();
+        $retry_after = (int) config("queue.connections.{$this->job->getConnectionName()}.retry_after");
+
+        if(array_key_exists('argv',$_SERVER)) {
+            foreach($_SERVER['argv'] as $value) {
+                if(substr($value,0,10) === '--timeout=') {
+                    $timeout = (int) substr($value,10);
+                }
+            }
+        }
+
+        if($timeout && $timeout >= $retry_after) {
+            cache()->put(
+                $this->getTimeoutMismatchKey($this->job->getConnectionName(),$this->job->getQueue()),
+                json_encode([
+                    'connection' => $this->job->getConnectionName(),
+                    'queue' => $this->job->getQueue(),
+                    'retry_after' => $retry_after,
+                    'timeout' => $timeout
+                ]),
+                61
+            );
+        }
+
+
+    }
+
+    public function getTimeoutMismatchKey(string $connection,string $queue)
+    {
+        return "queue-status-monitor-mismatch-{$connection}-{$queue}";
     }
 }
