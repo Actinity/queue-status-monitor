@@ -50,7 +50,7 @@ class PingQueue
                     'retry_after' => $retry_after,
                     'timeout' => $timeout
                 ]),
-                61
+                new \DateInterval('PT1M')
             );
         }
 
