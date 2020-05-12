@@ -40,7 +40,7 @@ class PingQueue
         }
 
         if($timeout && $timeout >= $retry_after) {
-            cache()->put('queue-status-monitor-mismatches',1,61);
+            cache()->put('queue-status-monitor-mismatches',1,new \DateInterval('PT1M'));
 
             cache()->put(
                 $this->getTimeoutMismatchKey($this->job->getConnectionName(),$this->job->getQueue()),
