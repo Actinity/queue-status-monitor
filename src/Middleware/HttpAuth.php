@@ -21,11 +21,14 @@ class HttpAuth
 
     private function canLogin($request)
     {
-        if($request->header('PHP_AUTH_USER') != 'twogether') {
+        if(config('queue.status_password') === 'none') {
+            return true;
+        }
+        if($request->header('PHP_AUTH_USER') != config('queue.status_user','twogether')) {
             return false;
         }
 
-        if($request->header('PHP_AUTH_PW') != 'queues') {
+        if($request->header('PHP_AUTH_PW') != config('queue.status_password','queues')) {
             return false;
         }
 
