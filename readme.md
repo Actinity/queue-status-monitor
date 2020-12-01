@@ -52,4 +52,16 @@ By default, if you have a failed_jobs table, then any failures will
 be treated as errors and generate a 400 status code. You can disable
 this by adding the following to `config/queue.php`.
 
-`do_not_monitor_failed_jobs => true`
+`"do_not_monitor_failed_jobs" => true`
+
+
+## Auth
+If you want to protect your endpoint, add:
+
+`"status_password" => "YOURPASSWORD"`
+
+To the queue config. The default username is 'queues', but you can customise
+this as well by setting:
+
+`"status_user" => "USERNAME"`
+
