@@ -1,9 +1,9 @@
 <?php
-namespace Twogether\QueueStatus;
+namespace Actinity\LaravelQueueStatus;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-use Twogether\QueueStatus\Commands\Ping;
+use Actinity\LaravelQueueStatus\Commands\Ping;
 
 class QueueStatusServiceProvider
     extends ServiceProvider

@@ -1,19 +1,19 @@
 <?php
 
-namespace Twogether\QueueStatus\Middleware;
+namespace Actinity\LaravelQueueStatus\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class HttpAuth
 {
     public function handle($request, Closure $next, $guard = null)
     {
         if (!$this->canLogin($request)) {
-            header('WWW-Authenticate: Basic realm="QS Monitoring"');
-            header('HTTP/1.0 401 Unauthorized');
-            echo 'Sorry, authorisation is required';
-            exit;
+            return response()->make('Sorry, authorisation is required',401,[
+                'WWW-Authenticate' => 'Basic realm="QS Monitoring"',
+            ]);
         }
 
         return $next($request);
@@ -21,14 +21,14 @@ class HttpAuth
 
     private function canLogin($request)
     {
-        if(config('queue.status_password') === 'none') {
+        if(!config('queue.status_password') || config('queue.status_password') === 'none') {
             return true;
         }
-        if($request->header('PHP_AUTH_USER') != config('queue.status_user','twogether')) {
+        if($request->header('PHP_AUTH_USER') != config('queue.status_user','queues')) {
             return false;
         }
 
-        if($request->header('PHP_AUTH_PW') != config('queue.status_password','queues')) {
+        if($request->header('PHP_AUTH_PW') != config('queue.status_password')) {
             return false;
         }
 

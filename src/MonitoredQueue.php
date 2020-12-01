@@ -1,5 +1,5 @@
 <?php
-namespace Twogether\QueueStatus;
+namespace Actinity\LaravelQueueStatus;
 
 class MonitoredQueue
     implements \ArrayAccess

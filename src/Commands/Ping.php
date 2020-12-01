@@ -1,9 +1,9 @@
 <?php
-namespace Twogether\QueueStatus\Commands;
+namespace Actinity\LaravelQueueStatus\Commands;
 
 use Illuminate\Console\Command;
-use Twogether\QueueStatus\Jobs\PingQueue;
-use Twogether\QueueStatus\QueueFetcher;
+use Actinity\LaravelQueueStatus\Jobs\PingQueue;
+use Actinity\LaravelQueueStatus\QueueFetcher;
 
 class Ping
     extends Command

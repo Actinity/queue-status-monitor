@@ -1,9 +1,9 @@
 <?php
-namespace Twogether\QueueStatus\Controllers;
+namespace Actinity\LaravelQueueStatus\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Twogether\QueueStatus\QueueFetcher;
+use Actinity\LaravelQueueStatus\QueueFetcher;
 
 class Controller
     extends BaseController

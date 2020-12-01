@@ -1,5 +1,5 @@
 {
-  "name": "twogether/queue-status",
+  "name": "actinity/laravel-queue-status",
   "description": "Queue Status Monitor",
   "type": "library",
 
@@ -10,7 +10,7 @@
 
   "autoload": {
     "psr-4": {
-      "Twogether\\QueueStatus\\": "src/"
+      "Actinity\\LaravelQueueStatus\\": "src/"
     }
   },
 
@@ -23,7 +23,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Twogether\\QueueStatus\\QueueStatusServiceProvider"
+        "Actinity\\LaravelQueueStatus\\QueueStatusServiceProvider"
       ]
     }
   },

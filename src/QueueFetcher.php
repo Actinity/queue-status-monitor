@@ -1,5 +1,5 @@
 <?php
-namespace Twogether\QueueStatus;
+namespace Actinity\LaravelQueueStatus;
 
 use Illuminate\Support\Collection;
 

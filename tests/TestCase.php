@@ -2,7 +2,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Twogether\QueueStatus\QueueStatusServiceProvider;
+use Actinity\LaravelQueueStatus\QueueStatusServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -16,7 +16,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        //$app['config']->set('database.default', 'testing');
+        $app['config']->set('database.default', 'testing');
     }
 
 }

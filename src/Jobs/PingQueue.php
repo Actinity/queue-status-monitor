@@ -1,11 +1,11 @@
 <?php
-namespace Twogether\QueueStatus\Jobs;
+namespace Actinity\LaravelQueueStatus\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Twogether\QueueStatus\MonitoredQueue;
+use Actinity\LaravelQueueStatus\MonitoredQueue;
 
 class PingQueue
     implements ShouldQueue

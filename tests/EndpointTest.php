@@ -2,12 +2,18 @@
 namespace Tests;
 
 use Illuminate\Support\Facades\Artisan;
-use Twogether\QueueStatus\MonitoredQueue;
-use Twogether\QueueStatus\QueueFetcher;
+use Actinity\LaravelQueueStatus\MonitoredQueue;
+use Actinity\LaravelQueueStatus\QueueFetcher;
 
 class EndpointTest
     extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        config(['queue.status_password' => 'none']);
+    }
+
     public function test_queues_default_to_a_bad_response()
     {
         $this->get('queue-status-monitor')
