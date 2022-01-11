@@ -4,7 +4,7 @@
   "type": "library",
 
   "require-dev": {
-    "orchestra/testbench": "~3.0",
+    "orchestra/testbench": "~4.0",
     "phpunit/phpunit": "^7.0"
   },
 
