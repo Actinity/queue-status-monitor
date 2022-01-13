@@ -38,6 +38,14 @@
 
 <h3>Queues</h3>
 
+<p>Last dispatch:
+@if($last_cron)
+    {{ $last_cron->diffForHumans() }} - {{ $last_cron }}
+@else
+    <span class="failing">NEVER - Check schedule/cron configuration.</span>
+@endif
+</p>
+
 <table>
     <thead>
     <tr>

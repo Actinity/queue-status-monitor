@@ -1,5 +1,6 @@
 <?php
 namespace Actinity\LaravelQueueStatus\Controllers;
+use Carbon\Carbon;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -8,10 +9,13 @@ use Actinity\LaravelQueueStatus\QueueFetcher;
 class Controller
     extends BaseController
 {
-    public function test()
+    public function index()
     {
         $okay = true;
         $queues = [];
+
+		$last_cron = cache()->get('queue-status-monitor-cron');
+		$last_cron = $last_cron ? Carbon::parse($last_cron) : null;
 
         foreach(QueueFetcher::get() as $queue) {
             $status = cache()->get($queue->cache_key);
@@ -65,7 +69,11 @@ class Controller
             $okay = false;
         }
 
-        return response()->view('queue-status-monitor::index',compact('queues','failed','mismatches'),$okay ? 200 : 400);
+        return response()->view(
+			'queue-status-monitor::index',
+			compact('queues','failed','mismatches','last_cron'),
+			$okay ? 200 : 400
+		);
     }
 
     private function getFailedJobs()

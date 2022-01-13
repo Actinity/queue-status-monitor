@@ -5,6 +5,6 @@ Route::group([
     'middleware' => [Actinity\LaravelQueueStatus\Middleware\HttpAuth::class]
 ],function() {
 
-    Route::get('queue-status-monitor','Controller@test');
+    Route::get('queue-status-monitor','Controller@index');
 
 });

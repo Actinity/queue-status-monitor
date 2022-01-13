@@ -14,6 +14,7 @@ class Ping
 
     public function handle()
     {
+		cache()->forever('queue-status-monitor-cron',now()->toDateTimeString());
         foreach(QueueFetcher::get() as $queue) {
             PingQueue::dispatch($queue,time())->onQueue($queue->name);
         }
