@@ -41,22 +41,22 @@ class MonitoredQueue
     }
 
 
-    public function offsetExists($offset)
-    {
+    public function offsetExists(mixed $offset): bool
+	{
         return in_array($offset,['name','threshold','cache_key']);
     }
 
-    public function offsetGet($offset)
-    {
+    public function offsetGet($offset): mixed
+	{
         return $this->$offset;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         // TODO: Implement offsetSet() method.
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         // TODO: Implement offsetUnset() method.
     }
