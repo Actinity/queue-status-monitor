@@ -5,6 +5,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Actinity\LaravelQueueStatus\QueueFetcher;
+use \Exception;
 
 class Controller
     extends BaseController
