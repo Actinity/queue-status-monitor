@@ -65,3 +65,10 @@ this as well by setting:
 
 `"status_user" => "USERNAME"`
 
+
+## Other routes
+
+`queue-status-monitor/only-failed` will only check failed jobs.
+
+`queue-status-monitor/without-failed` will ignore failed jobs.
+

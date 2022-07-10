@@ -102,8 +102,6 @@ class EndpointTest
 
         $this->get('queue-status-monitor')
             ->assertStatus(400);
-
-
     }
 
 }

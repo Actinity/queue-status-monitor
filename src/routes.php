@@ -1,10 +1,15 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 Route::group([
     'namespace' => '\Actinity\LaravelQueueStatus\Controllers',
-    'middleware' => [Actinity\LaravelQueueStatus\Middleware\HttpAuth::class]
+    'middleware' => [Actinity\LaravelQueueStatus\Middleware\HttpAuth::class],
+	'prefix' => 'queue-status-monitor',
 ],function() {
 
-    Route::get('queue-status-monitor','Controller@index');
+    Route::get('','Controller@index');
+
+	Route::get('only-failed','Controller@failed');
+	Route::get('without-failed','Controller@queuesOnly');
 
 });

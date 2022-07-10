@@ -35,12 +35,13 @@
     </style>
 </head>
 <body>
+@if($check->queuesWereChecked())
 
 <h3>Queues</h3>
 
 <p>Last dispatch:
-@if($last_cron)
-    {{ $last_cron->diffForHumans() }} - {{ $last_cron }}
+@if($check->lastcron())
+    {{ $check->lastcron()->diffForHumans() }} - {{ $check->lastcron() }}
 @else
     <span class="failing">NEVER - Check schedule/cron configuration.</span>
 @endif
@@ -56,7 +57,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($queues as $queue)
+    @foreach($check->queues() as $queue)
         <tr class="{{ $queue['class'] }}">
             <td>{{ $queue['name'] }}</td>
             <td title="{{ $queue['last_run'] }}">
@@ -73,7 +74,9 @@
     </tbody>
 </table>
 
-@if(count($mismatches))
+@endif
+
+@if($check->hasMismatches())
 
     <h3 style="color:#f00;">Some queues have <i>retry_after</i> set shorter or identical to their <i>timeout</i></h3>
     <table>
@@ -86,7 +89,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($mismatches as $mismatch)
+        @foreach($check->mismatches() as $mismatch)
             <tr>
                 <td>{{ $mismatch->connection }}</td>
                 <td>{{ $mismatch->queue }}</td>
@@ -100,7 +103,7 @@
 
 @endif
 
-@if($failed)
+@if($check->hasFailures())
 
     <h3>Failed jobs</h3>
 
@@ -108,21 +111,26 @@
         <tbody>
         <tr>
             <td>Failed jobs</td>
-            <td>{{ $failed['number'] }}</td>
+            <td>{{ $check->failures() }}</td>
         </tr>
         <tr>
             <td>Earliest</td>
-            <td>{{ $failed['earliest'] }}</td>
+            <td>{{ $check->firstFailed() }}</td>
         </tr>
         <tr>
-            @if($failed['earliest'] != $failed['latest'])
+            @if($check->firstFailed() != $check->lastFailed())
                 <td>Latest</td>
-                <td>{{ $failed['latest'] }}</td>
+                <td>{{ $check->lastFailed() }}</td>
             @endif
         </tr>
         </tbody>
     </table>
 
+@elseif($check->couldNotCheckFailures())
+    <p class="failing"><strong>Warning:</strong> Failed jobs could not be checked.</p>
+
+@elseif($check->triedCheckingFailures())
+    <p>No failed jobs to report</p>
 @endif
 
 </body>
