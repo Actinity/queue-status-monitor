@@ -55,7 +55,7 @@ this by adding the following to `config/queue.php`.
 `"do_not_monitor_failed_jobs" => true`
 
 Alternatively, if you are prepared to tolerate failed jobs, but don't
-want them to stop you knowing if there is another issue; you can set up 
+want them to stop you knowing if there is another issue; you can monitor 
 independent endpoints rather than just the default:
 
 `queue-status-monitor/without-failed` will ignore failed jobs and
