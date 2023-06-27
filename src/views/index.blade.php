@@ -35,6 +35,10 @@
     </style>
 </head>
 <body>
+@if(config('queue.status_monitor_disabled'))
+    <h1 class="failing">Monitor disabled in config.</h1>
+@endif
+
 @if($check->queuesWereChecked())
 
 <h3>Queues</h3>

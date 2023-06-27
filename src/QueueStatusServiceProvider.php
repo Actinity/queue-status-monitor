@@ -18,10 +18,12 @@ class QueueStatusServiceProvider
             ]);
         }
 
-        $this->app->booted(function () {
-            $schedule = $this->app->make(Schedule::class);
-            $schedule->command('queue-status:ping')->everyMinute()->onOneServer();
-        });
+		if(!config('queue.status_monitor_disabled')) {
+			$this->app->booted(function () {
+				$schedule = $this->app->make(Schedule::class);
+				$schedule->command('queue-status:ping')->everyMinute()->onOneServer();
+			});
+		}
 
         $this->loadViewsFrom(__DIR__."/views", 'queue-status-monitor');
 

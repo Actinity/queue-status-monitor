@@ -3,6 +3,10 @@
   "description": "Queue Status Monitor",
   "type": "library",
 
+  "require": {
+    "ext-json": "*"
+  },
+
   "require-dev": {
     "orchestra/testbench": "~7.0",
     "phpunit/phpunit": "^9.5"

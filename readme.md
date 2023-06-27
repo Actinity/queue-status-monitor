@@ -90,3 +90,12 @@ To the queue config. The default username is 'queues', but you can
 customise this as well by setting:
 
 `"status_user" => "USERNAME"`
+
+
+## Disable in certain environments
+You can disable the queue monitor by adding 
+
+`"status_monitor_disabled" => env("QUEUE_MONITOR_DISABLED",false)`
+
+in your queue config, and then setting that value to true in your
+`.env` file.

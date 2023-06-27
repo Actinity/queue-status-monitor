@@ -38,7 +38,7 @@ class Controller
 		return response()->view(
 			'queue-status-monitor::index',
 			compact('check'),
-			$check->okay() ? 200 : 400
+			$check->okay() && !config('queue.status_monitor_disabled') ? 200 : 400
 		);
 	}
 }
