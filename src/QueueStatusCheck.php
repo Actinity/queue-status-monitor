@@ -4,7 +4,9 @@ namespace Actinity\LaravelQueueStatus;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
 
 class QueueStatusCheck
@@ -26,6 +28,8 @@ class QueueStatusCheck
     private bool $_failure_check_failed = false;
 
     private $_queues_were_checked = false;
+
+    private $_sizes_requested = false;
 
     public function withQueues(): self
     {
@@ -67,7 +71,21 @@ class QueueStatusCheck
 
             }
 
+            if ($this->_sizes_requested) {
+                $status['size'] = Queue::size($queue->name);
+            }
+
             $this->_queues[] = $status;
+        }
+
+        return $this;
+    }
+
+    public function withSizes(bool $setting): self
+    {
+        $this->sizes_requested = $setting;
+        if ($setting && $this->_queues_were_checked) {
+            $this->_queues = Arr::map($this->_queues, fn ($queue) => [...$queue, 'size' => Queue::size($queue['name'])]);
         }
 
         return $this;

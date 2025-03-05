@@ -14,6 +14,7 @@ class Controller extends BaseController
                 ->withQueues()
                 ->withMismatches()
                 ->withFailedJobs()
+                ->withSizes(request()->has('size'))
         );
     }
 
@@ -31,6 +32,7 @@ class Controller extends BaseController
             (new QueueStatusCheck)
                 ->withQueues()
                 ->withMismatches()
+                ->withSizes(request()->has('size'))
         );
     }
 
@@ -38,7 +40,10 @@ class Controller extends BaseController
     {
         return response()->view(
             'queue-status-monitor::index',
-            compact('check'),
+            [
+                'check' => $check,
+                'size' => request()->has('size'),
+            ],
             $check->okay() && ! config('queue.status_monitor_disabled') ? 200 : 400
         );
     }

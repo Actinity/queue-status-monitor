@@ -58,6 +58,9 @@
         <th>Last Run</th>
         <th>Last Delay</th>
         <th>Status</th>
+        @if($size)
+            <th>Size</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -73,6 +76,9 @@
             </td>
             <td>{{ $queue['delay'] }}</td>
             <td>{{ $queue['status'] }}</td>
+            @if($size)
+                <td>{{ $queue['size'] ?? '-' }}</td>
+            @endif
         </tr>
     @endforeach
     </tbody>
