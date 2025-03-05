@@ -1,12 +1,11 @@
 <?php
+
 namespace Tests;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Actinity\LaravelQueueStatus\QueueStatusServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-
     protected function getPackageProviders($app)
     {
         return [
@@ -18,5 +17,4 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         $app['config']->set('database.default', 'testing');
     }
-
 }

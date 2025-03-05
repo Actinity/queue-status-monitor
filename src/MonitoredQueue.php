@@ -1,4 +1,5 @@
 <?php
+
 namespace Actinity\LaravelQueueStatus;
 
 class MonitoredQueue
@@ -6,6 +7,7 @@ class MonitoredQueue
     const DEFAULT_THRESHOLD = 300;
 
     private $name;
+
     private $threshold;
 
     public function __construct(string $name, ?int $threshold = null)
@@ -26,10 +28,10 @@ class MonitoredQueue
 
     public function __get($value)
     {
-        switch($value) {
-            case "name": return $this->getName();
-            case "threshold": return $this->getThreshold();
-            case "cache_key": return $this->getCacheKey();
+        switch ($value) {
+            case 'name': return $this->getName();
+            case 'threshold': return $this->getThreshold();
+            case 'cache_key': return $this->getCacheKey();
             default: return null;
         }
     }

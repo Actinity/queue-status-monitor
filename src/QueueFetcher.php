@@ -1,4 +1,5 @@
 <?php
+
 namespace Actinity\LaravelQueueStatus;
 
 use Illuminate\Support\Collection;
@@ -11,18 +12,18 @@ class QueueFetcher
 
         $queues = [];
 
-        if($config) {
+        if ($config) {
 
-            if(!is_array($config)) {
+            if (! is_array($config)) {
                 $config = [$config];
             }
 
-            foreach($config as $queue) {
+            foreach ($config as $queue) {
 
-                if(!is_array($queue)) {
+                if (! is_array($queue)) {
                     $queues[] = new MonitoredQueue($queue);
                 } else {
-                    $queues[] = new MonitoredQueue($queue['name'],$queue['threshold'] ?? null);
+                    $queues[] = new MonitoredQueue($queue['name'], $queue['threshold'] ?? null);
                 }
             }
 
